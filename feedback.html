@@ -160,43 +160,37 @@
         if (feedbackStyle === 1) {
             // Positive framing
             feedbackTitle = 'Password Feedback';
+            feedbackClass = 'feedback-strong'; // Always use green background for positive framing
 
             if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackClass = 'feedback-weak';
                 feedbackMessage = 'Nice work! You\'re close to having a strong password. Adding more characters and mixing in numbers and symbols will make it even better!';
             } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackClass = 'feedback-medium';
                 feedbackMessage = 'Nice work! Your password is getting stronger. Just a few more tweaks could make it excellent!';
             } else { // Strong
-                feedbackClass = 'feedback-strong';
                 feedbackMessage = 'Nice work! You\'ve created a strong password that will help protect your account.';
             }
         } else if (feedbackStyle === 2) {
             // Neutral framing
             feedbackTitle = 'Password Evaluation';
+            feedbackClass = 'feedback-medium'; // Always use yellow/neutral background for neutral framing
 
             if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackClass = 'feedback-weak';
                 feedbackMessage = 'Your password is rated as weak. Consider adding more characters and complexity.';
             } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackClass = 'feedback-medium';
                 feedbackMessage = 'Your password is rated as moderate. It meets basic requirements but could be improved.';
             } else { // Strong
-                feedbackClass = 'feedback-strong';
                 feedbackMessage = 'Your password is rated as strong. It meets recommended security guidelines.';
             }
         } else {
             // Negative framing
             feedbackTitle = 'Password Security Alert';
+            feedbackClass = 'feedback-weak'; // Always use red background for negative framing
 
             if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackClass = 'feedback-weak';
                 feedbackMessage = 'Your password could be easily cracked and puts your data at risk. Please consider changing it to something more secure.';
             } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackClass = 'feedback-medium';
                 feedbackMessage = 'Your password has vulnerabilities that could put your data at risk. A stronger password would provide better protection.';
             } else { // Strong
-                feedbackClass = 'feedback-strong';
                 feedbackMessage = 'While your password is strong, remember that even strong passwords should be changed regularly to minimize security risks.';
             }
         }
