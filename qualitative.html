@@ -111,6 +111,26 @@
             <textarea id="user-feedback" name="user-feedback" required
                 placeholder="Please type your answer here..."></textarea>
 
+            <label>
+                What feedback(s) (i.e., password strength at account creation, the statement from the previous screen)
+                influenced your decision?
+            </label>
+            <textarea id="feedback-influence" name="feedback-influence" required
+                placeholder="Please explain which feedback elements influenced you..."></textarea>
+
+            <label>
+                Did detailed suggestions accompanying the strength rating affect your decision to change your password?
+            </label>
+            <textarea id="suggestions-impact" name="suggestions-impact" required
+                placeholder="Please explain how the detailed suggestions affected your decision..."></textarea>
+
+            <label>
+                Is there any other information regarding your password creation and/or password revision that you would
+                like to share?
+            </label>
+            <textarea id="additional-info" name="additional-info"
+                placeholder="Share any other thoughts or feedback you have..."></textarea>
+
             <button type="submit">Submit</button>
         </form>
 
@@ -141,9 +161,15 @@
             event.preventDefault();
 
             const userFeedback = document.getElementById('user-feedback').value;
+            const feedbackInfluence = document.getElementById('feedback-influence').value;
+            const suggestionsImpact = document.getElementById('suggestions-impact').value;
+            const additionalInfo = document.getElementById('additional-info').value;
 
             // Store the qualitative feedback in localStorage
             localStorage.setItem('qualitativeFeedback', userFeedback);
+            localStorage.setItem('feedbackInfluence', feedbackInfluence);
+            localStorage.setItem('suggestionsImpact', suggestionsImpact);
+            localStorage.setItem('additionalInfo', additionalInfo);
 
             // Also save as part of the complete survey data
             const surveyData = {
@@ -153,6 +179,9 @@
                 prompt_type: promptType,
                 password_revised: passwordRevised,
                 feedback_text: userFeedback,
+                feedback_influence: feedbackInfluence,
+                suggestions_impact: suggestionsImpact,
+                additional_info: additionalInfo,
                 submission_time: new Date().toISOString()
             };
 
@@ -160,6 +189,9 @@
             localStorage.setItem('completeSurveyData', JSON.stringify(surveyData));
 
             console.log('Qualitative feedback saved:', userFeedback);
+            console.log('Feedback influence saved:', feedbackInfluence);
+            console.log('Suggestions impact saved:', suggestionsImpact);
+            console.log('Additional info saved:', additionalInfo);
             console.log('Complete survey data saved:', surveyData);
 
             // Navigate to thank you page with all parameters
