@@ -1,0 +1,171 @@
+<!-- qualitative.html-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Follow-up Question - Group 6 Study</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            color: #07294D;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .subheading {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            min-height: 150px;
+            margin-bottom: 24px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            border-color: #07294D;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(7, 41, 77, 0.2);
+        }
+
+        button {
+            background-color: #07294D;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            align-self: flex-end;
+        }
+
+        button:hover {
+            background-color: #051e38;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>One Last Question</h1>
+            <p class="subheading">Please share your thoughts about your password decision</p>
+        </div>
+
+        <form id="feedback-form">
+            <label id="question-label">
+            </label>
+            <textarea id="user-feedback" name="user-feedback" required
+                placeholder="Please type your answer here..."></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="footer">
+            <p>Drexel University CS-465 Group 6 Research Study</p>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+        const initialStrength = parseInt(urlParams.get('initial') || localStorage.getItem('passwordStrength') || 0);
+        const finalStrength = parseInt(urlParams.get('final') || localStorage.getItem('finalPasswordStrength') || 0);
+        const promptType = parseInt(urlParams.get('prompt') || localStorage.getItem('promptType') || 0);
+        const passwordRevised = urlParams.get('revised') === 'true'; // Convert string to boolean
+
+        // Set the appropriate question based on whether they revised their password
+        const questionLabel = document.getElementById('question-label');
+        if (passwordRevised) {
+            questionLabel.textContent = 'What made you decide to change your password after receiving feedback?';
+        } else {
+            questionLabel.textContent = 'What made you decide to keep your original password after receiving feedback?';
+        }
+
+        // Handle form submission
+        document.getElementById('feedback-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const userFeedback = document.getElementById('user-feedback').value;
+
+            // Store the qualitative feedback in localStorage
+            localStorage.setItem('qualitativeFeedback', userFeedback);
+
+            // Also save as part of the complete survey data
+            const surveyData = {
+                participant_id: userId,
+                initial_strength: initialStrength,
+                final_strength: finalStrength,
+                prompt_type: promptType,
+                password_revised: passwordRevised,
+                feedback_text: userFeedback,
+                submission_time: new Date().toISOString()
+            };
+
+            // Save the complete survey data object
+            localStorage.setItem('completeSurveyData', JSON.stringify(surveyData));
+
+            console.log('Qualitative feedback saved:', userFeedback);
+            console.log('Complete survey data saved:', surveyData);
+
+            // Navigate to thank you page with all parameters
+            window.location.href = `thank_you.html?id=${userId}&initial=${initialStrength}&final=${finalStrength}&prompt=${promptType}&revised=${passwordRevised}&qualitative=true`;
+        });
+    </script>
+</body>
+
+</html>

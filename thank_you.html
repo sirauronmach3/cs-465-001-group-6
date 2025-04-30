@@ -99,6 +99,9 @@
         const promptType = parseInt(urlParams.get('prompt') || localStorage.getItem('promptType') || 0);
         const passwordRevised = urlParams.get('revised') === 'true'; // Convert string to boolean
 
+        // Get qualitative feedback from localStorage
+        const qualitativeFeedback = localStorage.getItem('qualitativeFeedback') || '';
+
         // Retrieve from localStorage if not in URL
         const userIdFromStorage = localStorage.getItem('surveyUniqueId');
 
@@ -112,6 +115,7 @@
         console.log('Final Password Strength:', finalStrength);
         console.log('Prompt Type Used:', promptType);
         console.log('Password Revised:', passwordRevised);
+        console.log('Qualitative Feedback:', qualitativeFeedback);
 
         // Create the survey data object
         const surveyData = {
@@ -120,41 +124,18 @@
             final_strength: finalStrength,
             prompt_type: promptType,
             password_revised: passwordRevised,
+            feedback_text: qualitativeFeedback,
             completion_timestamp: new Date().toISOString()
         };
 
-        // // Initialize Supabase client
-        // const supabaseUrl = 'YOUR_SUPABASE_URL';
-        // const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
-        // const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        // // Function to save data to Supabase
-        // async function saveToSupabase() {
-        //     try {
-        //         const { data, error } = await supabase
-        //             .from('password_survey_responses')
-        //             .insert([surveyData]);
-
-        //         if (error) {
-        //             console.error('Error saving to Supabase:', error);
-        //         } else {
-        //             console.log('Data saved to Supabase successfully:', data);
-        //         }
-        //     } catch (err) {
-        //         console.error('Exception when saving to Supabase:', err);
-        //     }
-        // }
-
-        // // Save the data to Supabase
-        // saveToSupabase();
-
-        // For demonstration, also log the complete data object
+        // For demonstration, log the complete data object
         console.log('Complete survey data:', surveyData);
 
-        // Clear sensitive data from localStorage if you don't need it anymore
+        // Clear sensitive data from localStorage if you're done with the study
         // localStorage.removeItem('userEmail');
         // localStorage.removeItem('passwordStrength');
         // localStorage.removeItem('finalPasswordStrength');
+        // localStorage.removeItem('qualitativeFeedback');
     </script>
 </body>
 
