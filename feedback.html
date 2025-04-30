@@ -217,8 +217,8 @@
         });
 
         document.getElementById('continue-btn').addEventListener('click', function () {
-            // Navigate to thank you page with all required parameters
-            window.location.href = `thank_you.html?id=${uniqueId || localStorage.getItem('surveyUniqueId')}&initial=${passwordStrength}&final=${passwordStrength}&prompt=${feedbackStyle}`;
+            // Navigate to thank you page with all required parameters including revision=false
+            window.location.href = `thank_you.html?id=${uniqueId || localStorage.getItem('surveyUniqueId')}&initial=${passwordStrength}&final=${passwordStrength}&prompt=${feedbackStyle}&revised=false`;
         });
 
         // Log the data with uniqueId

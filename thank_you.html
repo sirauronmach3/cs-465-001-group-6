@@ -96,6 +96,7 @@
         const initialStrength = parseInt(urlParams.get('initial') || localStorage.getItem('passwordStrength') || 0);
         const finalStrength = parseInt(urlParams.get('final') || localStorage.getItem('finalPasswordStrength') || 0);
         const promptType = parseInt(urlParams.get('prompt') || localStorage.getItem('promptType') || 0);
+        const passwordRevised = urlParams.get('revised') === 'true'; // Convert string to boolean
 
         // Retrieve from localStorage if not in URL
         const userIdFromStorage = localStorage.getItem('surveyUniqueId');
@@ -111,6 +112,7 @@
         console.log('Initial Password Strength:', initialStrength);
         console.log('Final Password Strength:', finalStrength);
         console.log('Prompt Type Used:', promptType);
+        console.log('Password Revised:', passwordRevised);
 
         // In a real application, this would be sent to a server
         const surveyData = {
@@ -119,6 +121,7 @@
             initialPasswordStrength: initialStrength,
             finalPasswordStrength: finalStrength,
             promptType: promptType,
+            passwordRevised: passwordRevised,
             completionTimestamp: new Date().toISOString()
         };
 
