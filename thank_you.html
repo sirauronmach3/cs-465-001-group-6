@@ -141,8 +141,8 @@
         // For demonstration, log the complete data object
         console.log('Complete survey data:', surveyData);
 
-        // Initialize Supabase client - replace with your Supabase URL and anon key
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Initialize Supabase client
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // Format data according to your Supabase schema
         const supabaseData = {
@@ -160,7 +160,7 @@
         // Save data to Supabase
         async function saveToSupabase() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('Study')
                     .upsert(supabaseData);  // Using upsert in case the user refreshes the page
 
