@@ -89,6 +89,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Retrieve URL parameters
@@ -140,11 +141,54 @@
         // For demonstration, log the complete data object
         console.log('Complete survey data:', surveyData);
 
-        // Clear sensitive data from localStorage if you're done with the study
-        // localStorage.removeItem('userEmail');
-        // localStorage.removeItem('passwordStrength');
-        // localStorage.removeItem('finalPasswordStrength');
-        // localStorage.removeItem('qualitativeFeedback');
+        // Initialize Supabase client - replace with your Supabase URL and anon key
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Format data according to your Supabase schema
+        const supabaseData = {
+            userId: participantId,
+            initial_password_strength: initialStrength,
+            final_password_strength: finalStrength,
+            prompt_type: promptType,
+            password_revised: passwordRevised,
+            initial_feedback: qualitativeFeedback,
+            influence_feedback: feedbackInfluence,
+            suggestion_feedback: suggestionsImpact,
+            general_feedback: additionalInfo
+        };
+
+        // Save data to Supabase
+        async function saveToSupabase() {
+            try {
+                const { data, error } = await supabase
+                    .from('Study')
+                    .upsert(supabaseData);  // Using upsert in case the user refreshes the page
+
+                if (error) {
+                    console.error('Error saving to Supabase:', error);
+                    // Add a hidden message for debugging
+                    const errorMsg = document.createElement('p');
+                    errorMsg.style.display = 'none';
+                    errorMsg.textContent = `Supabase error: ${JSON.stringify(error)}`;
+                    document.body.appendChild(errorMsg);
+                } else {
+                    console.log('Data saved to Supabase successfully');
+
+                    // Clear localStorage after successful save
+                    localStorage.removeItem('qualitativeFeedback');
+                    localStorage.removeItem('feedbackInfluence');
+                    localStorage.removeItem('suggestionsImpact');
+                    localStorage.removeItem('additionalInfo');
+                    localStorage.removeItem('passwordStrength');
+                    localStorage.removeItem('finalPasswordStrength');
+                }
+            } catch (err) {
+                console.error('Exception when saving to Supabase:', err);
+            }
+        }
+
+        // Call the function to save data
+        saveToSupabase();
     </script>
 </body>
 
