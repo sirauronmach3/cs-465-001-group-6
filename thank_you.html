@@ -99,8 +99,11 @@
         const promptType = parseInt(urlParams.get('prompt') || localStorage.getItem('promptType') || 0);
         const passwordRevised = urlParams.get('revised') === 'true'; // Convert string to boolean
 
-        // Get qualitative feedback from localStorage
+        // Get all qualitative feedback from localStorage
         const qualitativeFeedback = localStorage.getItem('qualitativeFeedback') || '';
+        const feedbackInfluence = localStorage.getItem('feedbackInfluence') || '';
+        const suggestionsImpact = localStorage.getItem('suggestionsImpact') || '';
+        const additionalInfo = localStorage.getItem('additionalInfo') || '';
 
         // Retrieve from localStorage if not in URL
         const userIdFromStorage = localStorage.getItem('surveyUniqueId');
@@ -116,6 +119,9 @@
         console.log('Prompt Type Used:', promptType);
         console.log('Password Revised:', passwordRevised);
         console.log('Qualitative Feedback:', qualitativeFeedback);
+        console.log('Feedback Influence:', feedbackInfluence);
+        console.log('Suggestions Impact:', suggestionsImpact);
+        console.log('Additional Info:', additionalInfo);
 
         // Create the survey data object
         const surveyData = {
@@ -125,6 +131,9 @@
             prompt_type: promptType,
             password_revised: passwordRevised,
             feedback_text: qualitativeFeedback,
+            feedback_influence: feedbackInfluence,
+            suggestions_impact: suggestionsImpact,
+            additional_info: additionalInfo,
             completion_timestamp: new Date().toISOString()
         };
 
