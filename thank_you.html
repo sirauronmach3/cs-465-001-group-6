@@ -89,6 +89,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Retrieve URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -114,36 +115,43 @@
         console.log('Prompt Type Used:', promptType);
         console.log('Password Revised:', passwordRevised);
 
-        // In a real application, this would be sent to a server
+        // Create the survey data object
         const surveyData = {
-            participantId: participantId,
-            userEmail: userEmail,
-            initialPasswordStrength: initialStrength,
-            finalPasswordStrength: finalStrength,
-            promptType: promptType,
-            passwordRevised: passwordRevised,
-            completionTimestamp: new Date().toISOString()
+            participant_id: participantId,
+            email: userEmail,
+            initial_strength: initialStrength,
+            final_strength: finalStrength,
+            prompt_type: promptType,
+            password_revised: passwordRevised,
+            completion_timestamp: new Date().toISOString()
         };
 
-        // Example of how you would send this to a server
-        /*
-        fetch('/api/submit-survey', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(surveyData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Survey submission successful:', data);
-        })
-        .catch((error) => {
-            console.error('Error submitting survey:', error);
-        });
-        */
+        // // Initialize Supabase client
+        // const supabaseUrl = 'YOUR_SUPABASE_URL';
+        // const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+        // const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // For demonstration, log the complete data object
+        // // Function to save data to Supabase
+        // async function saveToSupabase() {
+        //     try {
+        //         const { data, error } = await supabase
+        //             .from('password_survey_responses')
+        //             .insert([surveyData]);
+
+        //         if (error) {
+        //             console.error('Error saving to Supabase:', error);
+        //         } else {
+        //             console.log('Data saved to Supabase successfully:', data);
+        //         }
+        //     } catch (err) {
+        //         console.error('Exception when saving to Supabase:', err);
+        //     }
+        // }
+
+        // // Save the data to Supabase
+        // saveToSupabase();
+
+        // For demonstration, also log the complete data object
         console.log('Complete survey data:', surveyData);
 
         // Clear sensitive data from localStorage if you don't need it anymore
