@@ -101,7 +101,6 @@
 
         // Retrieve from localStorage if not in URL
         const userIdFromStorage = localStorage.getItem('surveyUniqueId');
-        const userEmail = localStorage.getItem('userEmail');
 
         // Use the ID from URL or localStorage
         const participantId = userId || userIdFromStorage || 'unknown';
@@ -109,7 +108,6 @@
         // Log the data
         console.log('Study completion data:');
         console.log('Participant ID:', participantId);
-        console.log('User Email:', userEmail);
         console.log('Initial Password Strength:', initialStrength);
         console.log('Final Password Strength:', finalStrength);
         console.log('Prompt Type Used:', promptType);
