@@ -1,0 +1,153 @@
+<!-- thank_you.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Group 6 Study</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            color: #07294D;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .subheading {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .thank-you-content {
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background-color: #E3F2FD;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 24px 0;
+            border-left: 4px solid #2196F3;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thank You for Participating</h1>
+            <p class="subheading">Your contribution to our research is invaluable</p>
+        </div>
+
+        <div class="thank-you-content">
+            <p>Thank you for taking part in our password security study. Your participation helps us understand how
+                people interact with password systems and will contribute to developing better security practices.</p>
+
+            <div class="highlight-box">
+                <p><strong>Your response has been recorded.</strong></p>
+                <p>All information has been collected anonymously and will be used solely for research purposes.</p>
+            </div>
+
+            <p>You may now close this window or navigate away from this page.</p>
+        </div>
+
+        <div class="footer">
+            <p>Drexel University CS-465 Group 6 Research Study</p>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+        const initialStrength = parseInt(urlParams.get('initial') || localStorage.getItem('passwordStrength') || 0);
+        const finalStrength = parseInt(urlParams.get('final') || localStorage.getItem('finalPasswordStrength') || 0);
+        const promptType = parseInt(urlParams.get('prompt') || localStorage.getItem('promptType') || 0);
+
+        // Retrieve from localStorage if not in URL
+        const userIdFromStorage = localStorage.getItem('surveyUniqueId');
+        const userEmail = localStorage.getItem('userEmail');
+
+        // Use the ID from URL or localStorage
+        const participantId = userId || userIdFromStorage || 'unknown';
+
+        // Log the data
+        console.log('Study completion data:');
+        console.log('Participant ID:', participantId);
+        console.log('User Email:', userEmail);
+        console.log('Initial Password Strength:', initialStrength);
+        console.log('Final Password Strength:', finalStrength);
+        console.log('Prompt Type Used:', promptType);
+
+        // In a real application, this would be sent to a server
+        const surveyData = {
+            participantId: participantId,
+            userEmail: userEmail,
+            initialPasswordStrength: initialStrength,
+            finalPasswordStrength: finalStrength,
+            promptType: promptType,
+            completionTimestamp: new Date().toISOString()
+        };
+
+        // Example of how you would send this to a server
+        /*
+        fetch('/api/submit-survey', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(surveyData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Survey submission successful:', data);
+        })
+        .catch((error) => {
+            console.error('Error submitting survey:', error);
+        });
+        */
+
+        // For demonstration, log the complete data object
+        console.log('Complete survey data:', surveyData);
+
+        // Clear sensitive data from localStorage if you don't need it anymore
+        // localStorage.removeItem('userEmail');
+        // localStorage.removeItem('passwordStrength');
+        // localStorage.removeItem('finalPasswordStrength');
+    </script>
+</body>
+
+</html>

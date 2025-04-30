@@ -1,0 +1,226 @@
+<!-- feedback.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Feedback - Group 6 Study</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            color: #07294D;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .subheading {
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .feedback-box {
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+
+        .feedback-weak {
+            background-color: #FFEBEE;
+            border: 1px solid #FFCDD2;
+        }
+
+        .feedback-medium {
+            background-color: #FFF8E1;
+            border: 1px solid #FFECB3;
+        }
+
+        .feedback-strong {
+            background-color: #E8F5E9;
+            border: 1px solid #C8E6C9;
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .button-primary {
+            background-color: #07294D;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button-secondary {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button-primary:hover {
+            background-color: #051e38;
+        }
+
+        .button-secondary:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Account Created</h1>
+            <p class="subheading">Thank you for creating your account</p>
+        </div>
+
+        <div id="feedback-content">
+            <!-- Feedback content will be inserted here by JavaScript -->
+        </div>
+
+        <div class="button-container">
+            <button id="change-password-btn" class="button-secondary">Change Password</button>
+            <button id="continue-btn" class="button-primary">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const uniqueId = urlParams.get('id');
+        const passwordStrength = parseInt(urlParams.get('strength'));
+
+        // Store uniqueId in localStorage if it exists
+        if (uniqueId) {
+            localStorage.setItem('surveyUniqueId', uniqueId);
+            console.log(`User ID ${uniqueId} stored in localStorage`);
+        } else {
+            // If no ID in URL, try to get from localStorage
+            const storedId = localStorage.getItem('surveyUniqueId');
+            console.log(`No ID in URL, using stored ID: ${storedId}`);
+        }
+
+        // Store password strength
+        localStorage.setItem('passwordStrength', passwordStrength);
+
+        // Generate random feedback style (1, 2, or 3)
+        const feedbackStyle = Math.floor(Math.random() * 3) + 1;
+        console.log(`Using feedback style ${feedbackStyle}`);
+
+        // Get user email from localStorage
+        const userEmail = localStorage.getItem('userEmail');
+
+        // Prepare feedback content based on strength and random style
+        let feedbackTitle, feedbackMessage, feedbackClass;
+
+        // Define feedback based on password strength
+        if (passwordStrength <= 1) { // Very weak or Weak
+            feedbackClass = 'feedback-weak';
+
+            if (feedbackStyle === 1) {
+                feedbackTitle = 'Your password could be stronger';
+                feedbackMessage = 'Your current password is vulnerable to attacks. Consider updating it with a mix of letters, numbers, and special characters.';
+            } else if (feedbackStyle === 2) {
+                feedbackTitle = 'Password security concern';
+                feedbackMessage = 'We detected that your password may not be secure enough. Stronger passwords protect your personal information better.';
+            } else {
+                feedbackTitle = 'Improve your password security';
+                feedbackMessage = 'Your password strength is quite low. For better protection, we recommend changing to a stronger password.';
+            }
+        } else if (passwordStrength <= 3) { // Fair or Good
+            feedbackClass = 'feedback-medium';
+
+            if (feedbackStyle === 1) {
+                feedbackTitle = 'Your password is adequate';
+                feedbackMessage = 'Your password provides moderate security. For the best protection, consider adding more complexity.';
+            } else if (feedbackStyle === 2) {
+                feedbackTitle = 'Reasonable password strength';
+                feedbackMessage = "Your password has a decent level of security, though there's still room for improvement.";
+            } else {
+                feedbackTitle = 'Password meets basic requirements';
+                feedbackMessage = 'While your password is acceptable, making it stronger would further protect your account.';
+            }
+        } else { // Strong
+            feedbackClass = 'feedback-strong';
+
+            if (feedbackStyle === 1) {
+                feedbackTitle = 'Great password choice!';
+                feedbackMessage = 'Your password is strong and provides excellent security for your account.';
+            } else if (feedbackStyle === 2) {
+                feedbackTitle = 'Excellent security';
+                feedbackMessage = 'Your password meets high security standards. Your account is well protected.';
+            } else {
+                feedbackTitle = 'Strong password detected';
+                feedbackMessage = 'Your password strength is very good. Your account has solid protection.';
+            }
+        }
+
+        // Insert feedback into the page
+        document.getElementById('feedback-content').innerHTML = `
+            <div class="feedback-box ${feedbackClass}">
+                <h3 class="feedback-title">${feedbackTitle}</h3>
+                <p>${feedbackMessage}</p>
+            </div>
+            <p>Your account for <strong>${userEmail || 'your Drexel email'}</strong> has been created.</p>
+        `;
+
+        // Button event handlers
+        document.getElementById('change-password-btn').addEventListener('click', function () {
+            // Navigate to second password creation page with all required parameters
+            window.location.href = `second_password_creation.html?id=${uniqueId || localStorage.getItem('surveyUniqueId')}&initial=${passwordStrength}&prompt=${feedbackStyle}`;
+        });
+
+        document.getElementById('continue-btn').addEventListener('click', function () {
+            // Navigate to thank you page with all required parameters
+            window.location.href = `thank_you.html?id=${uniqueId || localStorage.getItem('surveyUniqueId')}&initial=${passwordStrength}&final=${passwordStrength}&prompt=${feedbackStyle}`;
+        });
+
+        // Log the data with uniqueId
+        console.log(`Feedback page: User ID ${uniqueId || localStorage.getItem('surveyUniqueId')} has password strength ${passwordStrength}`);
+    </script>
+</body>
+
+</html>
