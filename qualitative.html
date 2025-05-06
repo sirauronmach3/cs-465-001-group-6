@@ -100,9 +100,23 @@
 
 <body>
     <div class="container">
+        <div class="explanation">
+            <h1>Explanation</h1>
+            <p class="subheading">Thanks, you've completed the quantitative portion of our study.</p>
+            <p class="subheading">This study's purpose was to determine how participants responded to feedback which
+                contectualizes their provided password with risk.
+                To that end, you were provided with two types of feedback.
+                First, you were given immediate feedback as you entered your password.
+                Next you were given a contextual feedback expressing in words risk associated with your password
+                selection.
+            </p>
+            <p class="subheading">We wish to understand how you decided on your password and what motivated that
+                decision.</p>
+        </div>
         <div class="header">
             <h1>A few questions</h1>
             <p class="subheading">The next few questions will be regarding your password selection.</p>
+            <p class="subheading">If you don't wish to answer or the question is not applicable, please put N/A.</p>
         </div>
 
         <form id="feedback-form">
@@ -112,14 +126,15 @@
                 placeholder="Please type your answer here..."></textarea>
 
             <label>
-                What feedback(s) (i.e., password strength at account creation, the statement from the previous screen)
-                influenced your decision?
+                Did the immediate feedback when creating your password and/or your second password affect your password
+                selection? If yes, how?
             </label>
-            <textarea id="feedback-influence" name="feedback-influence" required
-                placeholder="Please explain which feedback elements influenced you..."></textarea>
+            <textarea id="immediate-feedback" name="immediate-feedback" required
+                placeholder="Please explain how the immediate feedback affected your decisions..."></textarea>
 
             <label>
-                Did detailed suggestions accompanying the strength rating affect your decision to change your password?
+                Did detailed suggestion to improve your password affect your decision to change your password? If yes,
+                how?
             </label>
             <textarea id="suggestions-impact" name="suggestions-impact" required
                 placeholder="Please explain how the detailed suggestions affected your decision..."></textarea>
@@ -161,13 +176,13 @@
             event.preventDefault();
 
             const userFeedback = document.getElementById('user-feedback').value;
-            const feedbackInfluence = document.getElementById('feedback-influence').value;
+            const immediateFeedback = document.getElementById('immediate-feedback').value;
             const suggestionsImpact = document.getElementById('suggestions-impact').value;
             const additionalInfo = document.getElementById('additional-info').value;
 
             // Store the qualitative feedback in localStorage
             localStorage.setItem('qualitativeFeedback', userFeedback);
-            localStorage.setItem('feedbackInfluence', feedbackInfluence);
+            localStorage.setItem('immediateFeedback', immediateFeedback);
             localStorage.setItem('suggestionsImpact', suggestionsImpact);
             localStorage.setItem('additionalInfo', additionalInfo);
 
@@ -179,7 +194,7 @@
                 prompt_type: promptType,
                 password_revised: passwordRevised,
                 feedback_text: userFeedback,
-                feedback_influence: feedbackInfluence,
+                immediate_feedback: immediateFeedback,
                 suggestions_impact: suggestionsImpact,
                 additional_info: additionalInfo,
                 submission_time: new Date().toISOString()
@@ -189,7 +204,7 @@
             localStorage.setItem('completeSurveyData', JSON.stringify(surveyData));
 
             console.log('Qualitative feedback saved:', userFeedback);
-            console.log('Feedback influence saved:', feedbackInfluence);
+            console.log('Immediate feedback saved:', immediateFeedback);
             console.log('Suggestions impact saved:', suggestionsImpact);
             console.log('Additional info saved:', additionalInfo);
             console.log('Complete survey data saved:', surveyData);
