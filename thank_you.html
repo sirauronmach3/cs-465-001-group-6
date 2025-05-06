@@ -89,7 +89,8 @@
         </div>
     </div>
 
-    <script src="config.js"></script> <!-- this is stored locally on the school's server, not stored in repo to keep url and api key secure -->
+    <script src="config.js"></script>
+    <!-- this is stored locally on the school's server, not stored in repo to keep url and api key secure -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Retrieve URL parameters
@@ -102,7 +103,7 @@
 
         // Get all qualitative feedback from localStorage
         const qualitativeFeedback = localStorage.getItem('qualitativeFeedback') || '';
-        const feedbackInfluence = localStorage.getItem('feedbackInfluence') || '';
+        const immediateFeedback = localStorage.getItem('immediateFeedback') || '';
         const suggestionsImpact = localStorage.getItem('suggestionsImpact') || '';
         const additionalInfo = localStorage.getItem('additionalInfo') || '';
 
@@ -120,7 +121,7 @@
         console.log('Prompt Type Used:', promptType);
         console.log('Password Revised:', passwordRevised);
         console.log('Qualitative Feedback:', qualitativeFeedback);
-        console.log('Feedback Influence:', feedbackInfluence);
+        console.log('Immediate Feedback:', immediateFeedback);
         console.log('Suggestions Impact:', suggestionsImpact);
         console.log('Additional Info:', additionalInfo);
 
@@ -132,7 +133,7 @@
             prompt_type: promptType,
             password_revised: passwordRevised,
             feedback_text: qualitativeFeedback,
-            feedback_influence: feedbackInfluence,
+            immediate_feedback: immediateFeedback,
             suggestions_impact: suggestionsImpact,
             additional_info: additionalInfo,
             completion_timestamp: new Date().toISOString()
@@ -152,7 +153,7 @@
             prompt_type: promptType,
             password_revised: passwordRevised,
             initial_feedback: qualitativeFeedback,
-            influence_feedback: feedbackInfluence,
+            influence_feedback: immediateFeedback, // Map immediateFeedback to influence_feedback column
             suggestion_feedback: suggestionsImpact,
             general_feedback: additionalInfo
         };
@@ -176,7 +177,7 @@
 
                     // Clear localStorage after successful save
                     localStorage.removeItem('qualitativeFeedback');
-                    localStorage.removeItem('feedbackInfluence');
+                    localStorage.removeItem('immediateFeedback');
                     localStorage.removeItem('suggestionsImpact');
                     localStorage.removeItem('additionalInfo');
                     localStorage.removeItem('passwordStrength');
