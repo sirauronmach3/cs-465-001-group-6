@@ -153,56 +153,78 @@
         // Get user email from localStorage
         const userEmail = localStorage.getItem('userEmail');
 
-        // Prepare feedback content based on strength and random style
+        // Check if password strength is maximum
+        const isMaxStrength = passwordStrength >= 4; // Assuming 4 is max strength
+
+        // Prepare feedback content
         let feedbackTitle, feedbackMessage, feedbackClass;
 
-        // Define feedback based on framing condition rather than password strength
-        if (feedbackStyle === 1) {
-            // Positive framing
-            feedbackTitle = 'Password Feedback';
-            feedbackClass = 'feedback-strong'; // Always use green background for positive framing
+        // Special handling for max strength passwords
+        if (isMaxStrength) {
+            feedbackTitle = 'Excellent Password';
+            feedbackMessage = 'That was a very strong password. You\'ve created a password that provides good protection for your account.';
+            feedbackClass = 'feedback-strong';
 
-            if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackMessage = 'Nice work! You\'re close to having a strong password. Adding more characters and mixing in numbers and symbols will make it even better!';
-            } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackMessage = 'Nice work! Your password is getting stronger. Just a few more tweaks could make it excellent!';
-            } else { // Strong
-                feedbackMessage = 'Nice work! You\'ve created a strong password that will help protect your account.';
-            }
-        } else if (feedbackStyle === 2) {
-            // Neutral framing
-            feedbackTitle = 'Password Evaluation';
-            feedbackClass = 'feedback-medium'; // Always use yellow/neutral background for neutral framing
+            // Insert feedback with only the continue button
+            document.getElementById('feedback-content').innerHTML = `
+                <div class="feedback-box ${feedbackClass}">
+                    <h3 class="feedback-title">${feedbackTitle}</h3>
+                    <p>${feedbackMessage}</p>
+                </div>
+                <p>Your account has been created.</p>
+            `;
 
-            if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackMessage = 'Your password is rated as weak. Consider adding more characters and complexity.';
-            } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackMessage = 'Your password is rated as moderate. It meets basic requirements but could be improved.';
-            } else { // Strong
-                feedbackMessage = 'Your password is rated as strong. It meets recommended security guidelines.';
-            }
+            // Hide the change password button for max strength
+            document.getElementById('change-password-btn').style.display = 'none';
         } else {
-            // Negative framing
-            feedbackTitle = 'Password Security Alert';
-            feedbackClass = 'feedback-weak'; // Always use red background for negative framing
+            // Define feedback based on framing condition for non-max-strength passwords
+            if (feedbackStyle === 1) {
+                // Positive framing
+                feedbackTitle = 'Password Feedback';
+                feedbackClass = 'feedback-strong'; // Always use green background for positive framing
 
-            if (passwordStrength <= 1) { // Very weak or Weak
-                feedbackMessage = 'Your password could be easily cracked and puts your data at risk. Please consider changing it to something more secure.';
-            } else if (passwordStrength <= 3) { // Fair or Good
-                feedbackMessage = 'Your password has vulnerabilities that could put your data at risk. A stronger password would provide better protection.';
-            } else { // Strong
-                feedbackMessage = 'While your password is strong, remember that even strong passwords should be changed regularly to minimize security risks.';
+                if (passwordStrength <= 1) { // Very weak or Weak
+                    feedbackMessage = 'Nice work! You\'re close to having a strong password. Adding more characters and mixing in numbers and symbols will make it even better!';
+                } else if (passwordStrength <= 3) { // Fair or Good
+                    feedbackMessage = 'Nice work! Your password is getting stronger. Just a few more tweaks could make it excellent!';
+                } else { // Strong
+                    feedbackMessage = 'Nice work! You\'ve created a strong password that will help protect your account.';
+                }
+            } else if (feedbackStyle === 2) {
+                // Neutral framing
+                feedbackTitle = 'Password Evaluation';
+                feedbackClass = 'feedback-medium'; // Always use yellow/neutral background for neutral framing
+
+                if (passwordStrength <= 1) { // Very weak or Weak
+                    feedbackMessage = 'Your password is rated as weak. Consider adding more characters and complexity.';
+                } else if (passwordStrength <= 3) { // Fair or Good
+                    feedbackMessage = 'Your password is rated as moderate. It meets basic requirements but could be improved.';
+                } else { // Strong
+                    feedbackMessage = 'Your password is rated as strong. It meets recommended security guidelines.';
+                }
+            } else {
+                // Negative framing
+                feedbackTitle = 'Password Security Alert';
+                feedbackClass = 'feedback-weak'; // Always use red background for negative framing
+
+                if (passwordStrength <= 1) { // Very weak or Weak
+                    feedbackMessage = 'Your password could be easily cracked and puts your data at risk. Please consider changing it to something more secure.';
+                } else if (passwordStrength <= 3) { // Fair or Good
+                    feedbackMessage = 'Your password has vulnerabilities that could put your data at risk. A stronger password would provide better protection.';
+                } else { // Strong
+                    feedbackMessage = 'While your password is strong, remember that even strong passwords should be changed regularly to minimize security risks.';
+                }
             }
-        }
 
-        // Insert feedback into the page
-        document.getElementById('feedback-content').innerHTML = `
-            <div class="feedback-box ${feedbackClass}">
-                <h3 class="feedback-title">${feedbackTitle}</h3>
-                <p>${feedbackMessage}</p>
-            </div>
-            <p>Your account has been created.</p>
-        `;
+            // Insert normal feedback with both buttons
+            document.getElementById('feedback-content').innerHTML = `
+                <div class="feedback-box ${feedbackClass}">
+                    <h3 class="feedback-title">${feedbackTitle}</h3>
+                    <p>${feedbackMessage}</p>
+                </div>
+                <p>Your account has been created.</p>
+            `;
+        }
 
         // Button event handlers
         document.getElementById('change-password-btn').addEventListener('click', function () {
