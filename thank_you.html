@@ -113,9 +113,15 @@
         // Use the ID from URL or localStorage
         const participantId = userId || userIdFromStorage || 'unknown';
 
+        // Retrieve name and email from localStorage
+        const userName = localStorage.getItem('userName') || 'unknown';
+        const userEmail = localStorage.getItem('userEmail') || 'unknown';
+
         // Log the data
         console.log('Study completion data:');
         console.log('Participant ID:', participantId);
+        console.log('Participant Name:', userName);
+        console.log('Participant Email:', userEmail);
         console.log('Initial Password Strength:', initialStrength);
         console.log('Final Password Strength:', finalStrength);
         console.log('Prompt Type Used:', promptType);
@@ -128,6 +134,8 @@
         // Create the survey data object
         const surveyData = {
             participant_id: participantId,
+            name: userName,
+            email: userEmail,
             initial_strength: initialStrength,
             final_strength: finalStrength,
             prompt_type: promptType,
@@ -148,6 +156,8 @@
         // Format data according to your Supabase schema
         const supabaseData = {
             userId: participantId,
+            name: userName,
+            email: userEmail,
             initial_password_strength: initialStrength,
             final_password_strength: finalStrength,
             prompt_type: promptType,
@@ -176,6 +186,8 @@
                     console.log('Data saved to Supabase successfully');
 
                     // Clear localStorage after successful save
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userEmail');
                     localStorage.removeItem('qualitativeFeedback');
                     localStorage.removeItem('immediateFeedback');
                     localStorage.removeItem('suggestionsImpact');
